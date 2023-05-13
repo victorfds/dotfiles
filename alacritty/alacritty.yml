@@ -1,0 +1,25 @@
+import:
+ - ~/.config/alacritty/themes/themes/dracula.yaml
+font:
+ normal:
+  family: JetBrainsMono Nerd Font
+  style: Bold
+ bold:
+  family: JetBrainsMono Nerd Font
+  style: Bold
+ italic:
+  family: JetBrainsMono Nerd Font
+  style: Medium Italic
+ bold_italic:
+  family: JetBrainsMono Nerd Font
+  style: Bold Italic
+ size: 9
+# draw_bold_text_with_bright_colors: true			
+window:
+  opacity: 1
+  dynamic_title: true
+  dimensions:
+      columns: 133
+      lines: 40
+shell:
+ program: /usr/bin/zsh 
