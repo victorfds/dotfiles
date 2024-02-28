@@ -1,2 +1,2 @@
 # Dotfiles
-My Manjaro dotfiles
+My Arch Linux dotfiles
