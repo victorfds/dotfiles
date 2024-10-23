@@ -4,12 +4,19 @@
 -- Discord: https://discord.com/invite/Xb9B4Ny
 
 
+-- if you don't want all the parsers change this to a table of the ones you want
+lvim.builtin.treesitter.ensure_installed = {
+  "lua",
+  "rust",
+  "toml",
+  "vue"
+}
 -- Mason and lspconfig setup
 require('mason').setup()
 require('mason-lspconfig').setup {
   ensure_installed = {
-    'vue-language-server',
-    'typescript',
+    'volar',
+    'tsserver',
   },
 }
 
@@ -18,8 +25,7 @@ local lspconfig = require('lspconfig')
 local mason_registry = require('mason-registry')
 
 -- Get the installation path for Vue Language Server
-local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() ..
-    '/node_modules/@vue/language-server'
+local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
 
 lspconfig.tsserver.setup {
   init_options = {
@@ -27,7 +33,7 @@ lspconfig.tsserver.setup {
       {
         name = '@vue/typescript-plugin',
         location = vue_language_server_path,
-        languages = { 'vue' },
+        languages = { "vue" },
       },
     },
   },
@@ -36,14 +42,6 @@ lspconfig.tsserver.setup {
 
 -- No need to set `hybridMode` to `true` as it's the default value
 lspconfig.volar.setup {}
-
--- if you don't want all the parsers change this to a table of the ones you want
-lvim.builtin.treesitter.ensure_installed = {
-  "lua",
-  "rust",
-  "toml",
-  "vue"
-}
 
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyzer" })
 
@@ -233,12 +231,12 @@ lvim.plugins = {
     },
     ft = { "fugitive" }
   },
-  -- {
-  --   "windwp/nvim-ts-autotag",
-  --   config = function()
-  --     require("nvim-ts-autotag").setup()
-  --   end,
-  -- },
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
@@ -246,12 +244,12 @@ lvim.plugins = {
     -- use opts = {} for passing setup options
     -- this is equalent to setup({}) function
   },
-  {
-    "rayliwell/nvim-ts-autotag",
-    config = function()
-      require("nvim-ts-autotag").setup()
-    end,
-  },
+  -- {
+  --   "rayliwell/nvim-ts-autotag",
+  --   config = function()
+  --     require("nvim-ts-autotag").setup()
+  --   end,
+  -- },
   {
     "rayliwell/tree-sitter-rstml",
     dependencies = { "nvim-treesitter" },
