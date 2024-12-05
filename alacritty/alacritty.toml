@@ -1,4 +1,4 @@
-import = ["./hyprland-themes/theme.toml"]
+general.import = ["./hyprland-themes/theme.toml"]
 
 [font.bold]
 family = "JetBrains Mono Nerd Font"
@@ -27,3 +27,4 @@ style = "Regular"
 [window]
 opacity = 0.7
 dynamic_padding = false
+padding = {x = 5, y = 5}
