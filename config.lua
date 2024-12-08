@@ -26,6 +26,7 @@ local mason_registry = require('mason-registry')
 
 -- Get the installation path for Vue Language Server
 local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+-- local vue_language_server_path = "/home/victor/.nvm/versions/node/v20.17.0/lib/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin"
 
 lspconfig.tsserver.setup {
   init_options = {
@@ -231,12 +232,12 @@ lvim.plugins = {
     },
     ft = { "fugitive" }
   },
-  {
-    "windwp/nvim-ts-autotag",
-    config = function()
-      require("nvim-ts-autotag").setup()
-    end,
-  },
+  -- {
+  --   "windwp/nvim-ts-autotag",
+  --   config = function()
+  --     require("nvim-ts-autotag").setup()
+  --   end,
+  -- },
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
@@ -244,12 +245,12 @@ lvim.plugins = {
     -- use opts = {} for passing setup options
     -- this is equalent to setup({}) function
   },
-  -- {
-  --   "rayliwell/nvim-ts-autotag",
-  --   config = function()
-  --     require("nvim-ts-autotag").setup()
-  --   end,
-  -- },
+  {
+    "rayliwell/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
   {
     "rayliwell/tree-sitter-rstml",
     dependencies = { "nvim-treesitter" },
