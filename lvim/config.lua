@@ -181,7 +181,7 @@ lvim.builtin.which_key.mappings["C"] = {
   f = { "<cmd>lua require'crates'.show_features_popup()<cr>", "[crates] show features" },
   D = { "<cmd>lua require'crates'.show_dependencies_popup()<cr>", "[crates] show dependencies" },
 }
-
+local leet_arg = "leetcode.nvim"
 lvim.plugins = {
   "simrat39/rust-tools.nvim",
   {
@@ -263,4 +263,39 @@ lvim.plugins = {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
   },
+  {
+   "kawre/leetcode.nvim",
+    lazy = leet_arg ~= vim.fn.argv(0, -1),
+    opts = { arg = leet_arg },
+    build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
+    dependencies = {
+        "nvim-telescope/telescope.nvim",
+        -- "ibhagwan/fzf-lua",
+        "nvim-lua/plenary.nvim",
+        "MunifTanjim/nui.nvim",
+    },
+    opts = {
+        -- configuration goes here
+      lang = "rust"
+    },
+    hooks = {
+      ---@type fun(question: lc.ui.Question)[]
+      ["question_enter"] = {
+        function()
+          -- os.execute "sleep 1"
+          local file_extension = vim.fn.expand "%:e"
+          if file_extension == "rs" then
+            local bash_script = tostring(vim.fn.stdpath "data" .. "/leetcode/rust_init.sh")
+            local success, error_message = os.execute(bash_script)
+            if success then
+              print "Successfully updated rust-project.json"
+              vim.cmd "LspRestart rust_analyzer"
+            else
+              print("Failed update rust-project.json. Error: " .. error_message)
+            end
+          end
+        end,
+      },
+    }
+  }
 }
