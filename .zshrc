@@ -18,6 +18,9 @@ source ~/py_envs/bin/activate
 
 #  Aliases 
 # Add aliases here
+alias cp='cp --reflink=auto'
+alias grep='grep --color=auto'
+alias ls='ls --color=auto --file-type'
 
 #  This is your file 
 # Add your configurations here

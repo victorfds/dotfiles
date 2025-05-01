@@ -15,7 +15,6 @@ return {
 
 	{
 		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
 		opts = {
 			ensure_installed = {
 				"vim",
@@ -134,6 +133,7 @@ return {
 			require("spectre").setup()
 		end,
 	},
+
 	{
 		"tpope/vim-fugitive",
 		cmd = {
@@ -166,19 +166,27 @@ return {
 		-- use opts = {} for passing setup options
 		-- this is equivalent to setup({}) function
 	},
+
+	-- {
+	--   "windwp/nvim-ts-autotag",
+	--   event = { "BufReadPre", "BufNewFile" },
+	--   opts = {
+	--     opts = {
+	--       enable = true,
+	--       enable_rename = true, -- Auto-rename closing tag when editing opening tag
+	--       enable_close = true, -- Auto-close tags on >
+	--       enable_close_on_slash = true, -- Auto-close on typing </
+	--       filetypes = { "html", "vue", "rust" },
+	--     },
+	--   },
+	-- },
 	{
-		"windwp/nvim-ts-autotag",
-		event = { "BufReadPre", "BufNewFile" },
-		opts = {
-			opts = {
-				enable = true,
-				enable_rename = true, -- Auto-rename closing tag when editing opening tag
-				enable_close = true, -- Auto-close tags on >
-				enable_close_on_slash = true, -- Auto-close on typing </
-				filetypes = { "html", "vue", "rs" },
-			},
-		},
+		"rayliwell/nvim-ts-autotag",
+		config = function()
+			require("nvim-ts-autotag").setup()
+		end,
 	},
+
 	{
 		"rayliwell/tree-sitter-rstml",
 		dependencies = { "nvim-treesitter" },
@@ -187,6 +195,7 @@ return {
 			require("tree-sitter-rstml").setup()
 		end,
 	},
+
 	{
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -195,15 +204,18 @@ return {
 			vim.fn["mkdp#util#install"]()
 		end,
 	},
+
 	{
 		"sindrets/diffview.nvim",
 		event = "BufRead",
 	},
+
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {},
 	},
+
 	{
 		"folke/trouble.nvim",
 		opts = {}, -- for default options, refer to the configuration section for custom setup.
