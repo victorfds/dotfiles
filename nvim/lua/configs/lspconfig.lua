@@ -100,7 +100,14 @@ lspconfig.tailwindcss.setup({
 	on_init = nvlsp.on_init,
 	capabilities = nvlsp.capabilities,
 	filetypes = { "rust", "html", "css", "javascript", "typescript", "vue" },
-	root_dir = lspconfig.util.root_pattern("package.json", "index.css", "globals.css", "input.css"),
+	root_dir = lspconfig.util.root_pattern(
+		"tailwind.config.js",
+		"tailwind.config.cjs",
+		"package.json",
+		"index.css",
+		"globals.css",
+		"input.css"
+	),
 	settings = {
 		tailwindCSS = {
 			experimental = {
@@ -114,6 +121,9 @@ lspconfig.tailwindcss.setup({
 			},
 			emmetCompletions = true, -- Enable Emmet-like completions
 		},
+	},
+	env = {
+		NODE_OPTIONS = "--max-old-space-size=4096",
 	},
 })
 
