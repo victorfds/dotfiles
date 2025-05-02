@@ -15,6 +15,7 @@ return {
 
 	{
 		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
 		opts = {
 			ensure_installed = {
 				"vim",
@@ -64,61 +65,6 @@ return {
 					end
 				end,
 			},
-			-- -@type fun(question: lc.ui.Question)[]
-			--   ["question_enter"] = {
-			--     function()
-			--       local file_extension = vim.fn.expand "%:e"
-			--       if file_extension == "rs" then
-			--         local target_dir = vim.fn.stdpath "data" .. "/leetcode"
-			--         local output_file = target_dir .. "/rust-project.json"
-			--
-			--         if vim.fn.isdirectory(target_dir) == 1 then
-			--           local crates = ""
-			--           local next = ""
-			--
-			--           local rs_files = vim.fn.globpath(target_dir, "*.rs", false, true)
-			--           for _, f in ipairs(rs_files) do
-			--             local file_path = f
-			--             crates = crates .. next .. '{"root_module": "' .. file_path .. '","edition": "2021","deps": []}'
-			--             next = ","
-			--           end
-			--
-			--           if crates == "" then
-			--             print("No .rs files found in directory: " .. target_dir)
-			--             return
-			--           end
-			--
-			--           local sysroot_src = vim.fn.system("rustc --print sysroot"):gsub("\n", "")
-			--             .. "/lib/rustlib/src/rust/library"
-			--
-			--           local json_content = '{"sysroot_src": "' .. sysroot_src .. '", "crates": [' .. crates .. "]}"
-			--
-			--           local file = io.open(output_file, "w")
-			--           if file then
-			--             file:write(json_content)
-			--             file:close()
-			--
-			--             local clients = vim.lsp.get_clients()
-			--             local rust_analyzer_attached = false
-			--             for _, client in ipairs(clients) do
-			--               if client.name == "rust_analyzer" then
-			--                 rust_analyzer_attached = true
-			--                 break
-			--               end
-			--             end
-			--
-			--             if rust_analyzer_attached then
-			--               vim.cmd "LspRestart rust_analyzer"
-			--             end
-			--           else
-			--             print("Failed to open file: " .. output_file)
-			--           end
-			--         else
-			--           print("Directory " .. target_dir .. " does not exist.")
-			--         end
-			--       end
-			--     end,
-			--   },
 		},
 	},
 	-- {
@@ -163,25 +109,42 @@ return {
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		config = true,
+		lazy = false,
 		-- use opts = {} for passing setup options
 		-- this is equivalent to setup({}) function
 	},
 
 	-- {
 	--   "windwp/nvim-ts-autotag",
-	--   event = { "BufReadPre", "BufNewFile" },
-	--   opts = {
-	--     opts = {
-	--       enable = true,
-	--       enable_rename = true, -- Auto-rename closing tag when editing opening tag
-	--       enable_close = true, -- Auto-close tags on >
-	--       enable_close_on_slash = true, -- Auto-close on typing </
-	--       filetypes = { "html", "vue", "rust" },
-	--     },
-	--   },
+	--   lazy = false,
+	--   config = function()
+	--     require("nvim-ts-autotag").setup {
+	--       opts = {
+	--         enable = true,
+	--         enable_rename = true, -- Auto-rename closing tag when editing opening tag
+	--         enable_close = true, -- Auto-close tags on >
+	--         enable_close_on_slash = true, -- Auto-close on </
+	--       },
+	--       -- Explicitly enable autotag for embedded HTML in rust
+	--       aliases = {
+	--         rust = "html", -- Treat rust as html for autotag purposes
+	--       },
+	--       -- Add notification to confirm plugin attachment
+	--       per_filetype = {
+	--         ["rust"] = {
+	--           enable = true,
+	--           enable_close = true,
+	--           enable_rename = true,
+	--           enable_close_on_slash = true,
+	--         },
+	--       },
+	--     }
+	--   end,
 	-- },
+
 	{
-		"rayliwell/nvim-ts-autotag",
+		"windwp/nvim-ts-autotag",
+		lazy = false,
 		config = function()
 			require("nvim-ts-autotag").setup()
 		end,
@@ -191,6 +154,7 @@ return {
 		"rayliwell/tree-sitter-rstml",
 		dependencies = { "nvim-treesitter" },
 		build = ":TSUpdate",
+		lazy = false,
 		config = function()
 			require("tree-sitter-rstml").setup()
 		end,
@@ -253,5 +217,5 @@ return {
 			},
 		},
 	},
-	{ "danilamihailov/beacon.nvim" }, -- lazy calls setup() by itself
+	{ "danilamihailov/beacon.nvim", lazy = false }, -- lazy calls setup() by itself
 }
