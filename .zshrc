@@ -21,6 +21,7 @@ source ~/py_envs/bin/activate
 alias cp='cp --reflink=auto'
 alias grep='grep --color=auto'
 alias ls='ls --color=auto --file-type'
+alias sudo='sudo-rs'
 
 #  This is your file 
 # Add your configurations here
