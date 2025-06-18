@@ -1,0 +1,53 @@
+${HOME}/.config/alacritty/theme.toml
+
+[colors.primary]
+background = '#0A1010'
+foreground = '#FFFFFF'
+
+[colors.cursor]
+text = '#FFFFFF'
+cursor = '#118911'
+
+[colors.vi_mode_cursor]
+text = '#FFFFFF'
+cursor = '#12b812'
+
+[colors.selection]
+text = '#0A1010'
+background = '#FFFFFF'
+
+[colors.search.matches]
+foreground = '#0A1010'
+background = '#AAF0AA'
+
+[colors.search.focused_match]
+foreground = '#0A1010'
+background = '#AAF0F0'
+
+[colors.hints.start]
+foreground = '#0A1010'
+background = '#AAF0F0'
+
+[colors.hints.end]
+foreground = '#0A1010'
+background = '#AAF0AA'
+
+[colors.normal]
+black   = '#295252'
+red     = '#CCFFCC'
+green   = '#11b811'
+yellow  = '#CCFFCC'
+blue    = '#12b812'
+magenta = '#9AE6E6'
+cyan    = '#9BE6E6'
+white   = '#CCFFCC'
+
+[colors.bright]
+black   = '#578F8F'
+red     = '#AAF0AA'
+green   = '#AAF0F0'
+yellow  = '#AAF0AA'
+blue    = '#12b812'
+magenta = '#9AE6E6'
+cyan    = '#9BE6E6'
+white   = '#AAF0AA'
