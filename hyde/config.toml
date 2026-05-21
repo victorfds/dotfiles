@@ -8,5 +8,5 @@ terminal = "alacritty"
 position = "bottom"
 
 [weather]
-location = "Dourados_Brazil"
+location = "DOU_BR"
 temperature_unit = "c"
