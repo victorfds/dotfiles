@@ -123,7 +123,7 @@
   "window.nativeTabs": true, // this is great, macOS only
   "window.title": "${rootName}", // this make tabs more readable
   "window.titleBarStyle": "custom",
-  "extensions.autoUpdate": "onlyEnabledExtensions",
+  "extensions.autoUpdate": "on",
   // ========== Extension configs ========== 
   "emmet.showSuggestionsAsSnippets": true,
   "emmet.triggerExpansionOnTab": false,
@@ -344,4 +344,7 @@
     "editor.defaultFormatter": "Vue.volar"
   },
   "security.workspace.trust.untrustedFiles": "open",
+  "explorer.confirmPasteNative": false,
+,
+  "material-code.primaryColor": "#664E75"
 }
