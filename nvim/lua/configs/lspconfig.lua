@@ -1,33 +1,31 @@
--- load defaults i.e lua_lsp
+-- load defaults from NvChad
 require("nvchad.configs.lspconfig").defaults()
 
-local lspconfig = require "lspconfig"
-
--- EXAMPLE
-local servers = { "html", "cssls", "oxlint", "tailwindcss" }
 local nvlsp = require "nvchad.configs.lspconfig"
 
--- lsps with default config
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+-- === SERVIDORES LSP (adicione aqui os que você usa) ===
+local servers = {
+  "html",
+  "cssls",
+  "tailwindcss",
+  "rust_analyzer",   -- seu principal
+  -- "vtsls",        -- se estiver usando Vue/TS
+  -- "lua_ls",
+}
+
+-- Configuração nova recomendada (Neovim 0.11+)
+for _, server in ipairs(servers) do
+  vim.lsp.config(server, {
     on_attach = nvlsp.on_attach,
     on_init = nvlsp.on_init,
     capabilities = nvlsp.capabilities,
-  }
+  })
+  vim.lsp.enable(server)
 end
 
--- Custom on_attach to enable inlay hints
-local on_attach = function(client, bufnr)
-  nvlsp.on_attach(client, bufnr) -- Keep NvChad's default on_attach
-  -- Enable inlay hints if the LSP server supports it
-  if client.server_capabilities.inlayHintProvider then
-    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-  end
-end
-
--- Rust Analyzer with corrected checkOnSave
-lspconfig.rust_analyzer.setup {
-  on_attach = on_attach,
+-- === CONFIGURAÇÃO ESPECÍFICA DO RUST-ANALYZER (mantida e atualizada) ===
+vim.lsp.config("rust_analyzer", {
+  on_attach = nvlsp.on_attach,
   on_init = nvlsp.on_init,
   capabilities = nvlsp.capabilities,
   settings = {
@@ -36,7 +34,7 @@ lspconfig.rust_analyzer.setup {
         allFeatures = true,
         command = "clippy",
       },
-      checkOnSave = true, -- Set as boolean to enable checking on save
+      checkOnSave = true,
       procMacro = {
         enable = true,
         ignored = {
@@ -50,118 +48,17 @@ lspconfig.rust_analyzer.setup {
       rustfmt = {
         overrideCommand = { "leptosfmt", "--stdin", "--rustfmt" },
       },
-      callInfo = {
-        full = true,
-      },
-      lens = {
-        enable = true,
-        references = true,
-        implementations = true,
-        enumVariantReferences = true,
-        methodReferences = true,
-      },
       inlayHints = {
         enable = true,
-        typeHints = {
-          enable = true,
-        },
-        parameterHints = {
-          enable = true,
-        },
-        bindingModeHints = {
-          enable = true,
-        },
-        closureReturnTypeHints = {
-          enable = "always",
-        },
-        lifetimeElisionHints = {
-          enable = "skip_trivial",
-        },
-      },
-      hoverActions = {
-        enable = true,
+        typeHints = { enable = true },
+        parameterHints = { enable = true },
+        closureReturnTypeHints = { enable = "always" },
       },
     },
   },
-}
+})
 
-local mason_registry = require "mason-registry"
-
--- Get the installation path for Vue Language Server
-local vue_language_server_path = vim.fn.expand "$MASON/packages"
-  .. "/vue-language-server"
-  .. "/node_modules/@vue/language-server"
-
--- local typescript_server_path = vim.fn.expand(
---   "$MASON/packages" .. "/typescript-language-server" .. "/node_modules/typescript/lib"
--- ) .. "/node_modules/typescript/lib"
-
-local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" }
-local vue_plugin = {
-  name = "@vue/typescript-plugin",
-  location = vue_language_server_path,
-  languages = { "vue" },
-  configNamespace = "typescript",
-}
-local vtsls_config = {
-  settings = {
-    vtsls = {
-      tsserver = {
-        globalPlugins = {
-          vue_plugin,
-        },
-      },
-    },
-  },
-  filetypes = tsserver_filetypes,
-}
-
-local ts_ls_config = {
-  init_options = {
-    plugins = {
-      vue_plugin,
-    },
-  },
-  filetypes = tsserver_filetypes,
-}
-
--- If you are on most recent `nvim-lspconfig`
-local vue_ls_config = {}
-
--- nvim 0.11 or above
-vim.lsp.config("vtsls", vtsls_config)
-vim.lsp.config("vue_ls", vue_ls_config)
-vim.lsp.config("ts_ls", ts_ls_config)
-vim.lsp.enable { "vtsls", "vue_ls" } -- If using `ts_ls` replace `vtsls` to `ts_ls`
-
--- Tailwind CSS LSP setup
-lspconfig.tailwindcss.setup {
-  on_attach = on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
-  filetypes = { "rust", "html", "css", "javascript", "typescript", "vue" },
-  root_dir = lspconfig.util.root_pattern(
-    "tailwind.config.js",
-    "tailwind.config.cjs",
-    "index.css",
-    "globals.css",
-    "input.css"
-  ),
-  settings = {
-    tailwindCSS = {
-      experimental = {
-        classRegex = {
-          [[class="([^"]*)"]], -- Match class="..."
-          [[class\s*=\s*"([^"]*)"]], -- Match class = "..."
-        },
-      },
-      includeLanguages = {
-        rust = "html",
-      },
-      emmetCompletions = true, -- Enable Emmet-like completions
-    },
-  },
-  env = {
-    NODE_OPTIONS = "--max-old-space-size=4096",
-  },
-}
+-- Força cores fortes no hover
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e222a", fg = "#c8d3f5" })
+vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#89b4fa", bg = "#1e222a" })
+vim.api.nvim_set_hl(0, "FloatTitle",  { fg = "#bb9af7", bg = "#1e222a", bold = true })
